@@ -9,7 +9,7 @@ export class SpotifyStrategy extends PassportStrategy(Strategy, 'spotify') {
     const options: StrategyOptions = {
       clientID: process.env.SPOTIFY_CLIENT_ID || '',
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET || '',
-      callbackURL: process.env.SPOTIFY_CALLBACK_URL || 'https://96d5-88-172-100-29.ngrok-free.app/auth/spotify/callback',
+      callbackURL: process.env.SPOTIFY_CALLBACK_URL || 'https://melofy-back-production.up.railway.app/auth/spotify/callback',
       scope: ['user-read-email', 'user-read-private', 'user-top-read'],
     };
 
