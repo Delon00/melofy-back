@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement()) // Identifiant unique
+  spotifyId    String    @unique // Identifiant unique de l'utilisateur sur Spotify
+  displayName  String    // Nom d'affichage de l'utilisateur
+  email        String?   @unique // Email de l'utilisateur
+  photo        String?   // Photo de profil de l'utilisateur
+  accessToken  String    // Token d'accès pour Spotify
+  refreshToken String    // Token de rafraîchissement pour Spotify
+  createdAt    DateTime  @default(now()) // Date de création du compte
+  updatedAt    DateTime  @updatedAt // Date de la dernière mise à jour
+
+  tokens       Token[]   // Lien vers les tokens pour gérer les sessions
+}
+
+model Token {
+  id         Int       @id @default(autoincrement()) // Identifiant unique du token
+  userId     Int       // Référence à l'utilisateur
+  token      String    // Token JWT pour la session
+  createdAt  DateTime  @default(now()) // Date de création du token
+  updatedAt  DateTime  @updatedAt // Date de la dernière mise à jour du token
+  
+  user       User      @relation(fields: [userId], references: [id]) // Lien vers l'utilisateur
+}
